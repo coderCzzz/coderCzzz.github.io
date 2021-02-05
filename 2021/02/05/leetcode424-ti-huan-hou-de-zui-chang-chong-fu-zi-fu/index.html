@@ -346,7 +346,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    364
+                    378
                 </div>
                 
 
@@ -379,12 +379,47 @@
                 <h4 id="1-题目描述"><a href="#1-题目描述" class="headerlink" title="1. 题目描述"></a>1. 题目描述</h4><p>给你一个仅由大写英文字母组成的字符串，你可以将任意位置上的字符替换成另外的字符，总共可最多替换 k 次。在执行上述操作后，找到包含重复字母的最长子串的长度。</p>
 <p><strong>注意：</strong> 字符串长度 和 k 不会超过 10^4^。</p>
 <p>示例1 ：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;ABAB&quot;, k &#x3D; 2</span><br><span class="line">输出：4</span><br><span class="line">解释：用两个&#39;A&#39;替换为两个&#39;B&#39;,反之亦然</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;ABAB&quot;, k &#x3D; 2
+输出：4
+解释：用两个&#39;A&#39;替换为两个&#39;B&#39;,反之亦然<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>示例 2 :</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;AABABBA&quot;, k &#x3D; 1</span><br><span class="line">输出：4</span><br><span class="line">解释：</span><br><span class="line">将中间的一个&#39;A&#39;替换为&#39;B&#39;,字符串变为 &quot;AABBBBA&quot;。</span><br><span class="line">子串 &quot;BBBB&quot; 有最长重复字母, 答案为 4。</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;AABABBA&quot;, k &#x3D; 1
+输出：4
+解释：
+将中间的一个&#39;A&#39;替换为&#39;B&#39;,字符串变为 &quot;AABBBBA&quot;。
+子串 &quot;BBBB&quot; 有最长重复字母, 答案为 4。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="2-思路"><a href="#2-思路" class="headerlink" title="2. 思路"></a>2. 思路</h4><p>考虑出现次数最多的+k &lt;= 区间长度，求出这样的区间长度中最大的</p>
 <p><strong>代码如下：c++实现</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">characterReplacement</span><span class="params">(<span class="built_in">string</span> s, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.size();</span><br><span class="line">        <span class="keyword">if</span> ( n &lt;<span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">//记录字母出现的次数</span></span><br><span class="line">        <span class="keyword">int</span> count[<span class="number">200</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> maxcount = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (right &lt; n) &#123;</span><br><span class="line">           count[s[right]]++;</span><br><span class="line">           <span class="comment">// 算出右指针滑动时，区间的出线最多的字母的次数</span></span><br><span class="line">           maxcount = max(count[s[right]], maxcount);</span><br><span class="line">           <span class="comment">//如果次数剩余的比k大，左指针移动，找到恰好为k的范围</span></span><br><span class="line">            <span class="keyword">while</span>(right-left+<span class="number">1</span>-maxcount &gt; k) &#123;</span><br><span class="line">                count[s[left]]--;</span><br><span class="line">                maxcount = max(count[s[left]], maxcount);</span><br><span class="line">                left++;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            ans = max(ans, right-left+<span class="number">1</span>);</span><br><span class="line">            right +=<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+public:
+    int characterReplacement(string s, int k) &#123;
+        int n &#x3D; s.size();
+        if ( n &lt;2) &#123;
+            return n;
+        &#125;
+        int left &#x3D; 0, right &#x3D; 0;
+        &#x2F;&#x2F;记录字母出现的次数
+        int count[200] &#x3D; &#123;0&#125;;
+        int ans &#x3D; 0;
+        int maxcount &#x3D; 0;
+        while (right &lt; n) &#123;
+           count[s[right]]++;
+           &#x2F;&#x2F; 算出右指针滑动时，区间的出线最多的字母的次数
+           maxcount &#x3D; max(count[s[right]], maxcount);
+           &#x2F;&#x2F;如果次数剩余的比k大，左指针移动，找到恰好为k的范围
+            while(right-left+1-maxcount &gt; k) &#123;
+                count[s[left]]--;
+                maxcount &#x3D; max(count[s[left]], maxcount);
+                left++;
+                
+            &#125;
+            ans &#x3D; max(ans, right-left+1);
+            right +&#x3D;1;
+        &#125;
+        return ans;
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -724,7 +759,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">1.3k</span>&nbsp;字
+                class="white-color">1.4k</span>&nbsp;字
             
             
             
