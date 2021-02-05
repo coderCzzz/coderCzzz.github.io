@@ -291,10 +291,104 @@
 
 
 
-<main class="container content">
+<main class="post-container content">
 
     
-    <!-- 文章内容详情 -->
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
 <div id="artDetail">
     <div class="card">
         <div class="card-content article-info">
@@ -346,7 +440,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    428
+                    470
                 </div>
                 
 
@@ -385,42 +479,39 @@
 <li>右指针主动前移，探索未知的新区域；左指针被迫移动，负责寻找满足题意的区间</li>
 </ul>
 <h5 id="1-2-技巧与模板"><a href="#1-2-技巧与模板" class="headerlink" title="1.2 技巧与模板"></a>1.2 技巧与模板</h5><p><strong>模板</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def findSubArray(nums):</span><br><span class="line">	N &#x3D; len(nums) &#x2F;&#x2F;数组、字符串的长度</span><br><span class="line">	left &#x3D; 0, right &#x3D;0 &#x2F;&#x2F;双指针， 表示当前遍历的区间的[left, right]</span><br><span class="line">	sums &#x3D; 0 &#x2F;&#x2F;区间[left, right]能提供的一些东西，比如求和、计数出现此时，作为区间是否满足题意的条件</span><br><span class="line">	res &#x3D; 0 &#x2F;&#x2F; 满足提议的最大长度</span><br><span class="line">	while right &lt;N: &#x2F;&#x2F;判断右指针是否到头</span><br><span class="line">    	sums +&#x3D; nums[right] &#x2F;&#x2F;增加右指针扩大区间时，计算满足条件</span><br><span class="line">    	while 区间[left, right]不符合题意 &#x2F;&#x2F;不符合题意，移动左指针，直到找到满足题意的区间</span><br><span class="line">    		sum -&#x3D;nums[left] &#x2F;&#x2F;去掉左指针时的条件变化</span><br><span class="line">    		left +&#x3D; 1 移动左指针</span><br><span class="line">    	res &#x3D; max(res, right-left+1) &#x2F;&#x2F; 更新结果</span><br><span class="line">    	right +&#x3D;1 &#x2F;&#x2F;移动右指针</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">def findSubArray(nums):
+	N &#x3D; len(nums) &#x2F;&#x2F;数组、字符串的长度
+	left &#x3D; 0, right &#x3D;0 &#x2F;&#x2F;双指针， 表示当前遍历的区间的[left, right]
+	sums &#x3D; 0 &#x2F;&#x2F;区间[left, right]能提供的一些东西，比如求和、计数出现此时，作为区间是否满足题意的条件
+	res &#x3D; 0 &#x2F;&#x2F; 满足提议的最大长度
+	while right &lt;N: &#x2F;&#x2F;判断右指针是否到头
+    	sums +&#x3D; nums[right] &#x2F;&#x2F;增加右指针扩大区间时，计算满足条件
+    	while 区间[left, right]不符合题意 &#x2F;&#x2F;不符合题意，移动左指针，直到找到满足题意的区间
+    		sum -&#x3D;nums[left] &#x2F;&#x2F;去掉左指针时的条件变化
+    		left +&#x3D; 1 移动左指针
+    	res &#x3D; max(res, right-left+1) &#x2F;&#x2F; 更新结果
+    	right +&#x3D;1 &#x2F;&#x2F;移动右指针
+    return res<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 <h3 id="2-相关题目"><a href="#2-相关题目" class="headerlink" title="2. 相关题目"></a>2. 相关题目</h3><ul>
-<li><p><input checked="" disabled="" type="checkbox">  424 <a href="">替换后的最长重复字符</a></p>
-</li>
-<li><p><input disabled="" type="checkbox">  643 子数组最大平均数</p>
-</li>
-<li><p><input disabled="" type="checkbox">  340</p>
-</li>
-<li><p><input disabled="" type="checkbox">  1004</p>
-</li>
-<li><p><input disabled="" type="checkbox">  1208 <a href="">尽可能使字符串相等</a></p>
-</li>
-<li><p><input disabled="" type="checkbox">  1493</p>
-</li>
-<li><p><input disabled="" type="checkbox">  3 无重复字符的最长字串–滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  30 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  76  –滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  159 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  209 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  239 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  438 </p>
-</li>
-<li><p><input disabled="" type="checkbox">  567 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  632 滑动</p>
-</li>
-<li><p><input disabled="" type="checkbox">  727 滑动</p>
-</li>
+<li><input checked="" disabled="" type="checkbox"> 424 <a href="https://coderczzz.github.io/2021/02/05/leetcode424-ti-huan-hou-de-zui-chang-chong-fu-zi-fu/">替换后的最长重复字符</a></li>
+<li><input checked="" disabled="" type="checkbox"> 643 [子数组最大平均数I]</li>
+<li><input disabled="" type="checkbox"> 395 [至少有K个重复字符的最长子串]</li>
+<li><input disabled="" type="checkbox"> 1004</li>
+<li><input checked="" disabled="" type="checkbox"> 1208 <a href="https://coderczzz.github.io/2021/02/05/leetcode1208-jin-ke-neng-shi-zi-fu-chuan-xiang-deng/">尽可能使字符串相等</a></li>
+<li><input disabled="" type="checkbox"> 1493</li>
+<li><input checked="" disabled="" type="checkbox"> 3 <a href="">无重复字符的最长字串</a></li>
+<li><input disabled="" type="checkbox"> 30 滑动</li>
+<li><input disabled="" type="checkbox"> 76  –滑动</li>
+<li><input checked="" disabled="" type="checkbox"> 159 [至多包含两个不同字符的最长字串]</li>
+<li><input checked="" disabled="" type="checkbox"> 340 [至多包含K个不同字符的最长字串] </li>
+<li><input disabled="" type="checkbox"> 209 滑动</li>
+<li><input disabled="" type="checkbox"> 239 滑动</li>
+<li><input disabled="" type="checkbox"> 438 </li>
+<li><input disabled="" type="checkbox"> 567 滑动</li>
+<li><input disabled="" type="checkbox"> 632 滑动</li>
+<li><input disabled="" type="checkbox"> 727 滑动</li>
 </ul>
 <p>参考引用：</p>
 <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/get-equal-substrings-within-budget/solution/fen-xiang-zhen-cang-de-hua-dong-chuang-k-e3rd/">分享珍藏的滑动窗口模板，学会套路秒杀十题</a></p>
@@ -702,6 +793,100 @@
 
 <script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
 
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
 
     
 

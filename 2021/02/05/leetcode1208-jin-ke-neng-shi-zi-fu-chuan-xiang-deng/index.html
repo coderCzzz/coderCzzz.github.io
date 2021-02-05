@@ -346,7 +346,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    537
+                    534
                 </div>
                 
 
@@ -382,11 +382,17 @@
 <p>如果你可以将 s 的子字符串转化为它在 t 中对应的子字符串，则返回可以转化的最大长度。</p>
 <p>如果 s 中没有子字符串可以转化成 t 中对应的子字符串，则返回 0。</p>
 <p><strong>示例1</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;bcdf&quot;, cost &#x3D; 3</span><br><span class="line">输出：3</span><br><span class="line">解释：s 中的 &quot;abc&quot; 可以变为 &quot;bcd&quot;。开销为 3，所以最大长度为 3。</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;bcdf&quot;, cost &#x3D; 3
+输出：3
+解释：s 中的 &quot;abc&quot; 可以变为 &quot;bcd&quot;。开销为 3，所以最大长度为 3。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><strong>示例2</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;cdef&quot;, cost &#x3D; 3</span><br><span class="line">输出：1</span><br><span class="line">解释：s 中的任一字符要想变成 t 中对应的字符，其开销都是 2。因此，最大长度为 1。</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;cdef&quot;, cost &#x3D; 3
+输出：1
+解释：s 中的任一字符要想变成 t 中对应的字符，其开销都是 2。因此，最大长度为 1。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p><strong>示例3</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;acde&quot;, cost &#x3D; 0</span><br><span class="line">输出：1</span><br><span class="line">解释：你无法作出任何改动，所以最大长度为 1</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">输入：s &#x3D; &quot;abcd&quot;, t &#x3D; &quot;acde&quot;, cost &#x3D; 0
+输出：1
+解释：你无法作出任何改动，所以最大长度为 1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 
 <p><strong>提示</strong></p>
@@ -404,7 +410,29 @@
 </li>
 </ul>
 <p><strong>代码实现</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int equalSubstring(string s, string t, int maxCost) &#123;</span><br><span class="line">        int n &#x3D; s.length();</span><br><span class="line">        vector&lt;int&gt; diff(n, 0);</span><br><span class="line">        for (int i &#x3D; 0; i &lt; n; i++) &#123;</span><br><span class="line">            diff[i] &#x3D; abs(s[i] - t[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        int maxLength &#x3D; 0;</span><br><span class="line">        int start &#x3D; 0, end &#x3D; 0;</span><br><span class="line">        int sum &#x3D; 0;</span><br><span class="line">        while (end &lt; n) &#123;</span><br><span class="line">            sum +&#x3D; diff[end];</span><br><span class="line">            while (sum &gt; maxCost) &#123;</span><br><span class="line">                sum -&#x3D; diff[start];</span><br><span class="line">                start++;</span><br><span class="line">            &#125;</span><br><span class="line">            maxLength &#x3D; max(maxLength, end - start + 1);</span><br><span class="line">            end++;</span><br><span class="line">        &#125;</span><br><span class="line">        return maxLength;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">class Solution &#123;
+public:
+    int equalSubstring(string s, string t, int maxCost) &#123;
+        int n &#x3D; s.length();
+        vector&lt;int&gt; diff(n, 0);
+        for (int i &#x3D; 0; i &lt; n; i++) &#123;
+            diff[i] &#x3D; abs(s[i] - t[i]);
+        &#125;
+        int maxLength &#x3D; 0;
+        int start &#x3D; 0, end &#x3D; 0;
+        int sum &#x3D; 0;
+        while (end &lt; n) &#123;
+            sum +&#x3D; diff[end];
+            while (sum &gt; maxCost) &#123;
+                sum -&#x3D; diff[start];
+                start++;
+            &#125;
+            maxLength &#x3D; max(maxLength, end - start + 1);
+            end++;
+        &#125;
+        return maxLength;
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -705,6 +733,13 @@
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 
 
