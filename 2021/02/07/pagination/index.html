@@ -650,7 +650,7 @@
 <h3 id="4-2-页错误"><a href="#4-2-页错误" class="headerlink" title="4.2 页错误"></a>4.2 页错误</h3><ul>
 <li>页错误： 访问不再物理内存中的页，被称为页错误。<br>发生页错误时，操作系统被换起来处理页错误。<br>操作系统将该页交换到内存。PTE中会存储对应的磁盘位置。</li>
 </ul>
-<h3 id="4-3-内存满了，换出去谁？–页替换策略"><a href="#4-3-内存满了，换出去谁？–页替换策略" class="headerlink" title="4.3 内存满了，换出去谁？–页替换策略"></a>4.3 内存满了，换出去谁？–页替换策略</h3><h4 id="4-3-1-缓存管理"><a href="#4-3-1-缓存管理" class="headerlink" title="4.3.1 缓存管理"></a>4.3.1 缓存管理</h4><p>程序的平均内存访问时间AMAT定义： AMAT = (P<sub>Hit<sub>*T<sub>M</sub>) + (P<sub>Miss</sub> * T<sub>D</sub>)<br>P<sub>Hit</sub> 表示在缓存中找到数据的概率  T<sub>M</sub>:表示访问内存的成本<br>P<sub>Miss</sub> 表示在缓存中找不到数据的概率   T<sub>D</sub> :表示访问磁盘的成本<br>通过上面的定义，我们实验可知：因为磁盘访问的成本非常高，即使很小概率的未命中也会拉低正在运行程序的总体AMAT  </p>
+<h3 id="4-3-内存满了，换出去谁？–页替换策略"><a href="#4-3-内存满了，换出去谁？–页替换策略" class="headerlink" title="4.3 内存满了，换出去谁？–页替换策略"></a>4.3 内存满了，换出去谁？–页替换策略</h3><h4 id="4-3-1-缓存管理"><a href="#4-3-1-缓存管理" class="headerlink" title="4.3.1 缓存管理"></a>4.3.1 缓存管理</h4><p>程序的平均内存访问时间AMAT定义： AMAT = (P<sub>Hit<sub> * T<sub>M</sub>) + (P<sub>Miss</sub> * T<sub>D</sub>)<br>P<sub>Hit</sub> 表示在缓存中找到数据的概率  T<sub>M</sub>:表示访问内存的成本<br>P<sub>Miss</sub> 表示在缓存中找不到数据的概率   T<sub>D</sub> :表示访问磁盘的成本<br>通过上面的定义，我们实验可知：因为磁盘访问的成本非常高，即使很小概率的未命中也会拉低正在运行程序的总体AMAT  </p>
 <h4 id="4-3-2-最优替换策略"><a href="#4-3-2-最优替换策略" class="headerlink" title="4.3.2 最优替换策略"></a>4.3.2 最优替换策略</h4><p>想法： 替换内存中在最远将来才会访问到的页； 但是实际无法实现，我们只能找到另一个策略，与它做对比，来判断另一个策略的优劣</p>
 <blockquote>
 <p>缓存未命中的类型：3C Compulsory miss强制性未命中：缓存开始是空的； Capacity miss：容量未命中：缓存空间不足； Conflict miss冲突未命中</p>
